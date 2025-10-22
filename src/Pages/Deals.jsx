@@ -65,7 +65,7 @@ const dealsData = [
 
 const DealsOfTheDay = ({ title = "Deals Of The Day" }) => {
   return (
-    <div className="w-full md:max-w-[1400px] mx-auto p-4 md:px-8 lg:px-20 py-8">
+    <div className="py-12">
       {title && (
         <h2 className="text-xl font-semibold mb-6 text-gray-900 border-b-2 border-teal-600 inline-block pb-1">
           {title}

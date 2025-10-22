@@ -1,16 +1,43 @@
-import { Star } from "lucide-react"; 
-import { Button } from "@/components/ui/button"; 
+import { Star, ShoppingCart, Heart } from "lucide-react";
+import { Button } from "@/components/ui/button";
 import { Card, CardContent, CardFooter, CardHeader } from "@/components/ui/card";
+import {
+  DropdownMenu,
+  DropdownMenuContent,
+  DropdownMenuItem,
+  DropdownMenuTrigger,
+} from "@/components/ui/dropdown-menu";
+import { useState } from "react";
 
 const ProductCard = ({ product }) => {
+  const [selectedOption, setSelectedOption] = useState("Select Options");
+
   const stars = Array.from({ length: 5 }, (_, index) => (
     <Star
       key={index}
       className={`h-4 w-4 ${
-        index < product.rating ? "fill-yellow-400 text-yellow-400" : "text-gray-300"
+        index < product.rating
+          ? "fill-yellow-400 text-yellow-400"
+          : "text-gray-300"
       }`}
     />
   ));
+
+  // الدوال
+  const handleSelect = (option) => {
+    setSelectedOption(option);
+    console.log(`Selected: ${option}`);
+  };
+
+  const handleAddToCart = () => {
+    handleSelect("Add to Cart");
+    console.log(`Product ${product.name} added to cart.`);
+  };
+
+  const handleAddToFavorite = () => {
+    handleSelect("Add to Favorite");
+    console.log(`Product ${product.name} added to favorites.`);
+  };
 
   return (
     <Card className="relative w-full md:max-w-[400px] shadow-lg border-2 border-transparent hover:border-teal-400 transition-all duration-300">
@@ -29,16 +56,14 @@ const ProductCard = ({ product }) => {
       </CardHeader>
 
       <CardContent className="p-4 flex flex-col items-start space-y-1">
-        <p className="text-sm text-gray-700 font-medium whitespace-nowrap overflow-hidden text-ellipsis w-full">
+        <p className="text-sm text-secondary font-medium whitespace-nowrap overflow-hidden text-ellipsis w-full">
           {product.name}
         </p>
-        <p className="text-xs text-gray-600 whitespace-nowrap overflow-hidden text-ellipsis w-full">
+        <p className="text-xs text-gray-900 font-semibold whitespace-nowrap overflow-hidden text-ellipsis w-full">
           {product.description}
         </p>
 
-        <div className="flex items-center space-x-0.5 mt-1">
-          {stars}
-        </div>
+        <div className="flex items-center space-x-0.5 mt-1">{stars}</div>
 
         <div className="mt-2 flex items-center space-x-2">
           <span className="text-base font-bold text-gray-900">
@@ -50,13 +75,29 @@ const ProductCard = ({ product }) => {
         </div>
       </CardContent>
 
-      <CardFooter className="p-4 pt-0">
-        <Button 
-          variant={product.isBelt ? "default" : "outline"} 
-          className="w-full border-teal-600 text-teal-600 hover:bg-teal-50 hover:text-teal-700"
-        >
-          {product.action}
-        </Button>
+      <CardFooter className="p-4 pt-0 flex space-x-2">
+
+        {/* الزر الجديد الذي يفتح القائمة */}
+        <DropdownMenu>
+          <DropdownMenuTrigger asChild>
+            <Button
+              variant="outline"
+              className="border-teal-600 text-teal-600 hover:bg-teal-50 hover:text-teal-700"
+            >
+              {selectedOption}
+            </Button>
+          </DropdownMenuTrigger>
+          <DropdownMenuContent align="end" className="w-48">
+            <DropdownMenuItem onClick={handleAddToCart} className="cursor-pointer">
+              <ShoppingCart className="mr-2 h-4 w-4" />
+              <span>Add to Cart</span>
+            </DropdownMenuItem>
+            <DropdownMenuItem onClick={handleAddToFavorite} className="cursor-pointer">
+              <Heart className="mr-2 h-4 w-4" />
+              <span>Add to Favorite</span>
+            </DropdownMenuItem>
+          </DropdownMenuContent>
+        </DropdownMenu>
       </CardFooter>
     </Card>
   );
