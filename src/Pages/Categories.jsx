@@ -80,11 +80,9 @@ const CategoryItem = ({ name, imgSrc, onClick }) => (
 const CategoriesSection = () => {
   const scrollRef = useRef(null);
 
-
   useEffect(() => {
     const scrollContainer = scrollRef.current;
     if (!scrollContainer) return;
-
 
     const scrollStep = 166;
     const intervalTime = 2000; 
@@ -124,16 +122,11 @@ const CategoriesSection = () => {
     <section className="py-12">
       <h2 className="text-2xl font-bold mb-4 text-gray-900">Categories</h2>
 
-
       {/* ✅ السلايدر الأفقي */}
       <div className="relative">
         <div
           ref={scrollRef}
-          className="flex space-x-4 md:space-x-6 overflow-x-auto pb-4 snap-x snap-mandatory scroll-smooth"
-          style={{
-            scrollbarWidth: "none", 
-            msOverflowStyle: "none", 
-          }}
+          className="flex space-x-4 md:space-x-6 overflow-x-auto pb-4 snap-x snap-mandatory scroll-smooth [&::-webkit-scrollbar]:hidden [-ms-overflow-style:none] [scrollbar-width:none]"
         >
           {categoriesData.map((category) => (
             <CategoryItem
@@ -144,12 +137,6 @@ const CategoriesSection = () => {
             />
           ))}
         </div>
-
-        <style jsx>{`
-          div::-webkit-scrollbar {
-            display: none;
-          }
-        `}</style>
       </div>
     </section>
   );
