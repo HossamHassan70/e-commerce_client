@@ -1,6 +1,6 @@
 import React from "react";
 import { Tabs, TabsContent, TabsList, TabsTrigger } from "@/components/ui/tabs"; // Adjust import path
-import DealsOfTheDay from "./Deals";
+import DealsOfTheDay from "../Deals";
 
 const ProductTabs = ({ description, additionalInfo, review }) => {
     return (

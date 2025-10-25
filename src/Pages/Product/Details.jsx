@@ -1,9 +1,9 @@
 import React, { useState } from "react";
 import { useParams } from "react-router-dom";
-import sampleProducts from "./sampleProducts";
-import ProductDetailsHeader from "./ProductDetailsHeader";
 import { Facebook, Linkedin, Twitter } from "lucide-react";
+import ProductDetailsHeader from "./ProductDetailsHeader";
 import ProductTabs from "./ProductTabs";
+import sampleProducts from "./sampleProducts";
 
 const ProductDetails = () => {
     const { id } = useParams();
