@@ -29,19 +29,19 @@ export default function LoginDialog({ open, onOpenChange }) {
                 </DialogClose>
 
                 <div
-                    className="relative bg-cover bg-center h-[530px] overflow-y-auto [scrollbar-width:none] [-ms-overflow-style:none] [&::-webkit-scrollbar]:hidden"
+                    className="relative bg-cover bg-center h-[500px] "
                     style={{
                         backgroundImage: `url(${LoginImage})`,
                     }}
                 >
                     <div className="absolute inset-0 bg-black/50" />
-                    <div className="relative z-10 flex justify-center items-center h-full overflow-y-auto [scrollbar-width:none] [-ms-overflow-style:none] [&::-webkit-scrollbar]:hidden">
+                    <div className="relative z-10 flex justify-center items-center h-full ">
                         <Tabs
                             defaultValue="login"
                             className="w-[80%] text-center m-auto"
                         >
                             <TabsList
-                                className="grid grid-cols-2 gap-4 bg-primary backdrop-blur-sm rounded-lg p-2 mb-6 w-full h-[50px] mx-auto mt-[70px]"
+                                className="grid grid-cols-2 gap-4 bg-primary backdrop-blur-sm rounded-lg p-2  w-full h-[50px] mx-auto "
                             >
                                 <TabsTrigger
                                     value="login"
