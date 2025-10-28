@@ -1,19 +1,25 @@
-import React, { useState } from "react";
+// Components/Header.jsx
 import { Input } from "@/components/ui/input";
-import { Button } from "@/components/ui/button";
 import { Heart, ShoppingCart, User, Search } from "lucide-react";
 import LoginDialog from "@/components/Login";
+import { useState } from "react";
+import { useFavorites } from "@/context/FavoritesContext.jsx";
+import { useNavigate } from "react-router-dom";
 
 export default function Header() {
   const [loginOpen, setLoginOpen] = useState(false);
-  console.log("Header rendered, loginOpen:", loginOpen); // Debugging log
+  const { favorites } = useFavorites();
+  const navigate = useNavigate();
 
   return (
     <>
       <header className="w-full border-b border-gray-200 bg-white">
         <div className="container mx-auto flex items-center justify-between py-4 px-4 md:px-8">
           {/* Logo */}
-          <div className="text-2xl font-semibold text-primary">
+          <div
+            onClick={() => navigate("/")}
+            className="text-2xl font-semibold text-primary cursor-pointer"
+          >
             Shop<span className="text-black">Easy</span>
           </div>
 
@@ -30,7 +36,6 @@ export default function Header() {
 
           {/* Icons */}
           <div className="flex items-center gap-6">
-            {/* Login button to open Dialog */}
             <button
               onClick={() => setLoginOpen(true)}
               className="flex items-center gap-1 text-gray-700 hover:text-primary"
@@ -39,13 +44,31 @@ export default function Header() {
               <span className="hidden md:inline text-sm">Login</span>
             </button>
 
-            <Heart size={22} className="cursor-pointer text-primary" />
-            <ShoppingCart size={22} className="cursor-pointer text-primary" />
+            {/* Favorites */}
+            <div
+              className="relative cursor-pointer"
+              onClick={() => navigate("/favorites")}
+            >
+              <Heart
+                size={22}
+                className="text-primary hover:fill-red-500 transition-all"
+              />
+              {favorites.length > 0 && (
+                <span className="absolute -top-2 -right-2 bg-red-500 text-white text-xs rounded-full h-5 w-5 flex items-center justify-center font-bold animate-pulse">
+                  {favorites.length}
+                </span>
+              )}
+            </div>
+
+            <ShoppingCart
+              size={22}
+              className="cursor-pointer text-primary"
+              onClick={() => navigate("/cart")}
+            />
           </div>
         </div>
       </header>
 
-      {/* Dialog */}
       <LoginDialog open={loginOpen} onOpenChange={setLoginOpen} />
     </>
   );

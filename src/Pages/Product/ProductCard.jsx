@@ -10,10 +10,27 @@ import {
 } from "@/components/ui/dropdown-menu";
 import { useState } from "react";
 import { useNavigate } from "react-router-dom";
+import { useFavorites } from "@/context/FavoritesContext.jsx"; // استيراد الـ Context
 
 const ProductCard = ({ product }) => {
+  const { addToFavorites, isFavorite: checkIsFavorite } = useFavorites();
   const [selectedOption, setSelectedOption] = useState("Select Options");
   const navigate = useNavigate();
+
+  const isAlreadyFavorite = checkIsFavorite(product.id);
+
+  const handleAddToCart = (e) => {
+    e.stopPropagation();
+    setSelectedOption("Add to Cart");
+  };
+
+  const handleAddToFavorite = (e) => {
+    e.stopPropagation();
+    if (!isAlreadyFavorite) {
+      addToFavorites(product); // إضافة للمفضلة
+    }
+    setSelectedOption("Added to Favorites");
+  };
 
   const stars = Array.from({ length: 5 }, (_, index) => (
     <Star
@@ -25,10 +42,6 @@ const ProductCard = ({ product }) => {
       }`}
     />
   ));
-
-  const handleSelect = (option) => setSelectedOption(option);
-  const handleAddToCart = () => handleSelect("Add to Cart");
-  const handleAddToFavorite = () => handleSelect("Add to Favorite");
 
   return (
     <Card
@@ -73,29 +86,30 @@ const ProductCard = ({ product }) => {
             <Button
               variant="outline"
               className="border-teal-600 text-teal-600 hover:bg-teal-50 hover:text-teal-700"
-              onClick={(e) => e.stopPropagation()} // عشان ما يفتحش صفحة التفاصيل لما نضغط على الزر
+              onClick={(e) => e.stopPropagation()}
             >
               {selectedOption}
             </Button>
           </DropdownMenuTrigger>
           <DropdownMenuContent align="end" className="w-48">
-            <DropdownMenuItem
-              onClick={(e) => {
-                e.stopPropagation();
-                handleAddToCart();
-              }}
-            >
-              <ShoppingCart className="mr-2 h-4 w-4" />
+            <DropdownMenuItem onClick={handleAddToCart}>
+              <ShoppingCart
+                className={`mr-2 h-4 w-4 ${selectedOption === "Add to Cart" ? "fill-teal-600 text-teal-600" : ""}`}
+              />
               <span>Add to Cart</span>
             </DropdownMenuItem>
             <DropdownMenuItem
-              onClick={(e) => {
-                e.stopPropagation();
-                handleAddToFavorite();
-              }}
+              onClick={handleAddToFavorite}
+              className={isAlreadyFavorite ? "text-red-500" : ""}
             >
-              <Heart className="mr-2 h-4 w-4" />
-              <span>Add to Favorite</span>
+              <Heart
+                className={`mr-2 h-4 w-4 ${
+                  isAlreadyFavorite ? "fill-red-500 text-red-500" : ""
+                }`}
+              />
+              <span>
+                {isAlreadyFavorite ? "Added to Favorites" : "Add to Favorite"}
+              </span>
             </DropdownMenuItem>
           </DropdownMenuContent>
         </DropdownMenu>
