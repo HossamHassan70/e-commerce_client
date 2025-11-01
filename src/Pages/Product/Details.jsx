@@ -1,18 +1,21 @@
 // Pages/Product/Details.jsx
 import React, { useState } from "react";
-import { useParams } from "react-router-dom";
-import { Facebook, Linkedin, Twitter, Heart } from "lucide-react";
+import { useParams, useNavigate } from "react-router-dom";
+import { Facebook, Linkedin, Twitter, Heart, ShoppingCart } from "lucide-react";
 import ProductDetailsHeader from "./ProductDetailsHeader";
 import ProductTabs from "./ProductTabs";
 import sampleProducts from "./sampleProducts";
-import { useFavorites } from "@/context/FavoritesContext.jsx"; // تأكدي من المسار
+import { useFavorites } from "@/context/FavoritesContext";
+import { useCart } from "@/context/CartContext"; // أضيفي ده
 
 const ProductDetails = () => {
   const { id } = useParams();
+  const navigate = useNavigate();
   const product = sampleProducts.find((p) => p.id === parseInt(id));
 
-  // استخدام الـ Context
-  const { addToFavorites, isFavorite } = useFavorites(); // هنا المفتاح
+  // Context
+  const { addToFavorites, removeFromFavorites, isFavorite } = useFavorites();
+  const { addToCart, cartItems } = useCart(); // أضيفي ده
 
   const [selectedColor, setSelectedColor] = useState("");
   const [selectedSize, setSelectedSize] = useState("");
@@ -34,14 +37,24 @@ const ProductDetails = () => {
     code: `PROD${product.id}XYZ`,
   };
 
-  // استخدام isFavorite هنا
+  // حالة القلب والسلة
   const alreadyInFavorites = isFavorite(product.id);
+  const alreadyInCart = cartItems.some((item) => item.id === product.id);
 
-  const handleAddToFavorite = (e) => {
+  // Toggle Favorite
+  const handleFavoriteToggle = (e) => {
     e.stopPropagation();
-    if (!alreadyInFavorites) {
+    if (alreadyInFavorites) {
+      removeFromFavorites(product.id);
+    } else {
       addToFavorites(productDetails);
     }
+  };
+
+  // Add to Cart
+  const handleAddToCart = (e) => {
+    e.stopPropagation();
+    addToCart({ ...productDetails, quantity }); // أضيفي الكمية
   };
 
   const handleQuantityChange = (action) => {
@@ -148,16 +161,27 @@ const ProductDetails = () => {
                 +
               </button>
             </div>
-            <button className="px-6 py-2 bg-primary text-white rounded-md hover:bg-teal-700">
-              Add to Cart
+
+            {/* Add to Cart Button */}
+            <button
+              onClick={handleAddToCart}
+              className={`px-6 py-2 rounded-md flex items-center gap-2 transition-all ${
+                alreadyInCart
+                  ? "bg-green-600 text-white hover:bg-green-700"
+                  : "bg-primary text-white hover:bg-teal-700"
+              }`}
+            >
+              <ShoppingCart size={20} className={alreadyInCart ? "fill-current" : ""} />
+              {alreadyInCart ? "Added to Cart" : "Add to Cart"}
             </button>
+
             <button className="px-6 py-2 bg-black text-white rounded-md hover:bg-gray-800">
               Buy Now
             </button>
 
-            {/* زر القلب */}
+            {/* Heart Button */}
             <button
-              onClick={handleAddToFavorite}
+              onClick={handleFavoriteToggle}
               className={`p-2 border rounded-full transition-all
                 ${alreadyInFavorites
                   ? "bg-red-50 border-red-500 text-red-500"

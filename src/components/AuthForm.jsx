@@ -35,7 +35,13 @@ const AuthForm = ({ type, onSubmit }) => {
                     </div>
                     <Button
                         type="submit"
-                        className="w-full bg-light-green hover:bg-primary border border-primary border-2 transition-all mt-2"
+                        className="w-full bg-white !text-primary hover:bg-secondary  border-secondary border-2 transition-all mt-2"
+                    >
+                        Forget Password
+                    </Button>
+                    <Button
+                        type="submit"
+                        className="w-full bg-light-green  hover:bg-primary  border-primary border-2 transition-all mt-2"
                     >
                         Log In
                     </Button>
@@ -78,6 +84,12 @@ const AuthForm = ({ type, onSubmit }) => {
                         />
                         <Eye className="absolute right-3 top-2 text-gray-500" size={18} />
                     </div>
+                    <Button
+                        type="submit"
+                        className="w-full bg-white !text-primary hover:bg-secondary  border-secondary border-2 transition-all mt-2"
+                    >
+                        Forget Password
+                    </Button>
                     <Button
                         type="submit"
                         className="w-full bg-light-green hover:bg-primary  border-primary border-2 transition-all mt-2"

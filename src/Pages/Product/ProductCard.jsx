@@ -1,120 +1,113 @@
-// ProductCard.jsx
-import { Star, ShoppingCart, Heart } from "lucide-react";
-import { Button } from "@/components/ui/button";
-import { Card, CardContent, CardFooter, CardHeader } from "@/components/ui/card";
-import {
-  DropdownMenu,
-  DropdownMenuContent,
-  DropdownMenuItem,
-  DropdownMenuTrigger,
-} from "@/components/ui/dropdown-menu";
-import { useState } from "react";
-import { useNavigate } from "react-router-dom";
-import { useFavorites } from "@/context/FavoritesContext.jsx"; // استيراد الـ Context
+// Product/ProductCard.jsx
+import { useCart } from "@/context/CartContext";
+import { useFavorites } from "@/context/FavoritesContext";
+import { Heart, ShoppingCart } from "lucide-react";
+import { useNavigate } from "react-router-dom"; // أضيفي ده
 
 const ProductCard = ({ product }) => {
-  const { addToFavorites, isFavorite: checkIsFavorite } = useFavorites();
-  const [selectedOption, setSelectedOption] = useState("Select Options");
-  const navigate = useNavigate();
+  const { addToCart, removeFromCart, cartItems } = useCart();
+  const { favorites, addToFavorites, removeFromFavorites } = useFavorites();
+  const navigate = useNavigate(); // للتنقل لصفحة المنتج
 
-  const isAlreadyFavorite = checkIsFavorite(product.id);
+  const isFavorite = favorites.some((item) => item.id === product.id);
+  const isInCart = cartItems.some((item) => item.id === product.id);
 
-  const handleAddToCart = (e) => {
-    e.stopPropagation();
-    setSelectedOption("Add to Cart");
-  };
-
-  const handleAddToFavorite = (e) => {
-    e.stopPropagation();
-    if (!isAlreadyFavorite) {
-      addToFavorites(product); // إضافة للمفضلة
+  const handleFavoriteToggle = (e) => {
+    e.stopPropagation(); // مهم: يمنع الانتقال لصفحة المنتج
+    if (isFavorite) {
+      removeFromFavorites(product.id);
+    } else {
+      addToFavorites(product);
     }
-    setSelectedOption("Added to Favorites");
   };
 
-  const stars = Array.from({ length: 5 }, (_, index) => (
-    <Star
-      key={index}
-      className={`h-4 w-4 ${
-        index < product.rating
-          ? "fill-yellow-400 text-yellow-400"
-          : "text-gray-300"
-      }`}
-    />
-  ));
+  const handleCartToggle = (e) => {
+    e.stopPropagation(); // مهم: يمنع الانتقال لصفحة المنتج
+    if (isInCart) {
+      removeFromCart(product.id);
+    } else {
+      addToCart(product);
+    }
+  };
+
+  const handleCardClick = () => {
+    navigate(`/product/${product.id}`); // يودّي لصفحة المنتج
+  };
 
   return (
-    <Card
-      onClick={() => navigate(`/product/${product.id}`)}
-      className="relative w-full md:max-w-[400px] shadow-lg border-2 border-transparent hover:border-teal-400 transition-all duration-300 cursor-pointer"
+    <div
+      className="group relative bg-white rounded-lg shadow-sm hover:shadow-xl transition-all duration-300 overflow-hidden flex flex-col h-full cursor-pointer"
+      onClick={handleCardClick} // الكارت كله يودّي للمنتج
     >
-      <div className="absolute top-[8px] left-[8px] bg-orange-500 text-white text-xs font-semibold px-2 py-1 z-10 rounded">
-        {product.discount}
+      <div className="aspect-square overflow-hidden bg-gray-50">
+        <img
+          src={product.image}
+          alt={product.name}
+          className="w-full h-full object-cover group-hover:scale-110 transition-transform duration-300"
+        />
       </div>
 
-      <CardHeader className="p-0">
-        <div className="h-[180px] w-full flex items-center justify-center overflow-hidden rounded-t-lg">
-          <img
-            src={product.image}
-            alt={product.name}
-            className="w-full h-full object-cover"
-          />
-        </div>
-      </CardHeader>
-
-      <CardContent className="p-4 flex flex-col items-start space-y-1">
-        <p className="text-sm text-secondary font-medium w-full truncate">
-          {product.name}
-        </p>
-        <p className="text-xs text-gray-900 font-semibold w-full truncate">
+      <div className="p-4 flex flex-col flex-grow">
+        <h3 className="font-semibold text-gray-900 line-clamp-1">{product.name}</h3>
+        <p className="text-sm text-gray-600 mt-1 line-clamp-2 flex-grow">
           {product.description}
         </p>
-        <div className="flex items-center space-x-0.5 mt-1">{stars}</div>
-        <div className="mt-2 flex items-center space-x-2">
-          <span className="text-base font-bold text-gray-900">
-            {product.discountedPrice} $
+
+        {/* Rating */}
+        <div className="flex items-center gap-1 mt-2">
+          {[...Array(5)].map((_, i) => (
+            <span
+              key={i}
+              className={`text-xs ${
+                i < product.rating ? "text-yellow-400" : "text-gray-300"
+              }`}
+            >
+              ★
+            </span>
+          ))}
+        </div>
+
+        {/* Price */}
+        <div className="flex items-center gap-2 mt-2">
+          <span className="text-lg font-bold text-primary">
+            ${product.discountedPrice}
           </span>
           <span className="text-sm text-gray-500 line-through">
-            {product.originalPrice} $
+            ${product.originalPrice}
+          </span>
+          <span className="text-xs text-green-600 font-semibold">
+            {product.discount}
           </span>
         </div>
-      </CardContent>
 
-      <CardFooter className="p-4 pt-0 flex space-x-2">
-        <DropdownMenu>
-          <DropdownMenuTrigger asChild>
-            <Button
-              variant="outline"
-              className="border-teal-600 text-teal-600 hover:bg-teal-50 hover:text-teal-700"
-              onClick={(e) => e.stopPropagation()}
-            >
-              {selectedOption}
-            </Button>
-          </DropdownMenuTrigger>
-          <DropdownMenuContent align="end" className="w-48">
-            <DropdownMenuItem onClick={handleAddToCart}>
-              <ShoppingCart
-                className={`mr-2 h-4 w-4 ${selectedOption === "Add to Cart" ? "fill-teal-600 text-teal-600" : ""}`}
-              />
-              <span>Add to Cart</span>
-            </DropdownMenuItem>
-            <DropdownMenuItem
-              onClick={handleAddToFavorite}
-              className={isAlreadyFavorite ? "text-red-500" : ""}
-            >
-              <Heart
-                className={`mr-2 h-4 w-4 ${
-                  isAlreadyFavorite ? "fill-red-500 text-red-500" : ""
-                }`}
-              />
-              <span>
-                {isAlreadyFavorite ? "Added to Favorites" : "Add to Favorite"}
-              </span>
-            </DropdownMenuItem>
-          </DropdownMenuContent>
-        </DropdownMenu>
-      </CardFooter>
-    </Card>
+        {/* Action Buttons */}
+        <div className="flex justify-between items-center mt-4 pt-2 border-t border-gray-100">
+          {/* Heart Button */}
+          <button
+            onClick={handleFavoriteToggle}
+            className={`p-2 rounded-full transition-all ${
+              isFavorite
+                ? "bg-red-100 text-red-600 hover:bg-red-200"
+                : "bg-gray-100 text-gray-600 hover:bg-gray-200"
+            }`}
+          >
+            <Heart size={18} className={isFavorite ? "fill-current" : ""} />
+          </button>
+
+          {/* Cart Button */}
+          <button
+            onClick={handleCartToggle}
+            className={`p-2 rounded-full transition-all ${
+              isInCart
+                ? "bg-primary text-white hover:bg-teal-700"
+                : "bg-gray-100 text-gray-600 hover:bg-gray-200"
+            }`}
+          >
+            <ShoppingCart size={18} className={isInCart ? "fill-current" : ""} />
+          </button>
+        </div>
+      </div>
+    </div>
   );
 };
 

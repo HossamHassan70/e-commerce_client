@@ -1,16 +1,40 @@
-import { useFavorites } from "@/context/FavoritesContext.jsx";
-import { Star, ShoppingCart, Trash2, Edit, Share2, MoreVertical, Check } from "lucide-react";
+import { useFavorites } from "@/context/FavoritesContext";
+import {
+  Star,
+  ShoppingCart,
+  Trash2,
+  Edit,
+  Share2,
+  MoreVertical,
+} from "lucide-react";
 import { useNavigate } from "react-router-dom";
 import { useState } from "react";
+import ConfirmDeleteDialog from "@/components/ConfirmDeleteDialog"; // ✅ استيراد المكون الجديد
 
 export default function Favorites() {
   const { favorites, removeFromFavorites } = useFavorites();
   const navigate = useNavigate();
   const [isDropdownOpen, setIsDropdownOpen] = useState(false);
 
+  // ✅ للتحكم في نافذة التأكيد
+  const [confirmOpen, setConfirmOpen] = useState(false);
+  const [itemToDelete, setItemToDelete] = useState(null);
+
   const handleDeleteAll = () => {
     favorites.forEach((item) => removeFromFavorites(item.id));
-    setIsDropdownOpen(false); // إغلاق القائمة بعد الحذف
+    setIsDropdownOpen(false);
+  };
+
+  const handleSingleDelete = (id) => {
+    setItemToDelete(id);
+    setConfirmOpen(true);
+  };
+
+  const confirmDelete = () => {
+    if (itemToDelete) {
+      removeFromFavorites(itemToDelete);
+      setItemToDelete(null);
+    }
   };
 
   if (favorites.length === 0) {
@@ -24,11 +48,19 @@ export default function Favorites() {
 
   return (
     <div className="container m-auto p-8 shadow-2xl border border-gray-200 rounded-lg bg-white w-[90%] my-10">
+      {/* ✅ Dialog تأكيد الحذف */}
+      <ConfirmDeleteDialog
+        open={confirmOpen}
+        onClose={setConfirmOpen}
+        onConfirm={confirmDelete}
+        title="Delete Favorite"
+        message="Are you sure you want to remove this item from your favorites?"
+      />
+
       {/* العنوان + زر More */}
       <div className="flex justify-between items-center mb-6">
         <h1 className="text-3xl font-bold text-secondary">Favourite</h1>
 
-        {/* Dropdown Button */}
         <div className="relative">
           <button
             onClick={() => setIsDropdownOpen(!isDropdownOpen)}
@@ -38,7 +70,6 @@ export default function Favorites() {
             <span>More</span>
           </button>
 
-          {/* Dropdown Menu */}
           {isDropdownOpen && (
             <div className="absolute right-0 mt-2 w-48 bg-white rounded-md shadow-lg border border-gray-200 z-50 overflow-hidden">
               <ul className="py-1">
@@ -63,14 +94,13 @@ export default function Favorites() {
                     Share List
                   </button>
                 </li>
-
               </ul>
             </div>
           )}
         </div>
       </div>
 
-      {/* باقي المنتجات (كما هي) */}
+      {/* المنتجات */}
       <div className="flex overflow-x-auto gap-6 pb-4 scrollbar-thin scrollbar-thumb-gray-300">
         {favorites.map((product) => {
           const stars = Array.from({ length: 5 }, (_, i) => (
@@ -130,7 +160,7 @@ export default function Favorites() {
                 <button
                   onClick={(e) => {
                     e.stopPropagation();
-                    removeFromFavorites(product.id);
+                    handleSingleDelete(product.id); // ✅ فتح التأكيد بدل الحذف المباشر
                   }}
                   className="p-2 text-red-500 hover:bg-red-50 rounded-md transition-colors"
                 >

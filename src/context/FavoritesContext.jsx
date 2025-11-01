@@ -7,10 +7,7 @@ export const FavoritesProvider = ({ children }) => {
   const [favorites, setFavorites] = useState([]);
 
   const addToFavorites = (product) => {
-    setFavorites((prev) => {
-      if (prev.some((item) => item.id === product.id)) return prev;
-      return [...prev, product];
-    });
+    setFavorites((prev) => [...prev, product]);
   };
 
   const removeFromFavorites = (id) => {
@@ -32,8 +29,6 @@ export const FavoritesProvider = ({ children }) => {
 
 export const useFavorites = () => {
   const context = useContext(FavoritesContext);
-  if (!context) {
-    throw new Error("useFavorites must be used within FavoritesProvider");
-  }
+  if (!context) throw new Error("useFavorites must be used within FavoritesProvider");
   return context;
 };

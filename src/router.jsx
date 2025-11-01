@@ -5,7 +5,8 @@ import App from "./App";
 import Home from "./Pages/Home";
 import ProductDetails from "./Pages/Product/Details";
 import Favourites from "./Pages/Favourites";
-
+import Search from "./Pages/Search";
+import CartPage from "./Pages/Cart/Cart";
 const router = createBrowserRouter([
   {
     path: "/",
@@ -23,6 +24,15 @@ const router = createBrowserRouter([
         path:"favorites",
         element:<Favourites/>
       },
+            {
+        path:"cart",
+        element:<CartPage/>
+      },
+                  {
+        path:"search",
+        element:<Search/>
+      },
+
     ],
   },
 ]);

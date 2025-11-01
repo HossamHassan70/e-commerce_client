@@ -1,7 +1,9 @@
-import { useState } from "react";
+// src/pages/SearchPage.jsx
+import { useSearchParams } from "react-router-dom";
+import { useMemo } from "react";
 import ProductCard from "./Product/ProductCard";
-// DealsOfTheDay.jsx
-import { useCart } from "@/context/CartContext";
+
+// بيانات المنتجات (نفس dealsData)
 const dealsData = [
   {
     id: 1,
@@ -60,29 +62,40 @@ const dealsData = [
   },
 ];
 
+export default function SearchPage() {
+  const [searchParams] = useSearchParams();
+  const query = searchParams.get("q")?.toLowerCase() || "";
 
-
-const DealsOfTheDay = ({ title = "Deals Of The Day" }) => {
-  const { totalCount } = useCart(); // نجيب العدد من الـ Context
+  // فلترة المنتجات حسب البحث
+  const filteredProducts = useMemo(() => {
+    if (!query) return [];
+    return dealsData.filter(
+      (product) =>
+        product.name.toLowerCase().includes(query) ||
+        product.description.toLowerCase().includes(query)
+    );
+  }, [query]);
 
   return (
-    <div className="py-12">
-      <div className="flex justify-between items-center mb-6">
-        <h2 className="text-xl font-semibold text-gray-900 border-b-2 border-teal-600 inline-block pb-1">
-          {title}
-        </h2>
-        <div className="text-primary font-bold">
-          Cart Items: <span>{totalCount}</span>
-        </div>
-      </div>
+    <div className="container mx-auto py-12 px-4 md:px-8">
+      <h1 className="text-2xl font-bold text-gray-900 mb-6">
+        Search Results for:{" "}
+        <span className="text-primary">"{query}"</span>
+      </h1>
 
-      <div className="grid grid-cols-1 sm:grid-cols-2 md:grid-cols-3 lg:grid-cols-5 gap-6">
-        {dealsData.map((deal) => (
-          <ProductCard key={deal.id} product={deal} />
-        ))}
-      </div>
+      {filteredProducts.length === 0 ? (
+        <div className="text-center py-12">
+          <p className="text-gray-600 text-lg">
+            No products found for "<strong>{query}</strong>"
+          </p>
+        </div>
+      ) : (
+        <div className="grid grid-cols-1 sm:grid-cols-2 md:grid-cols-3 lg:grid-cols-5 gap-6">
+          {filteredProducts.map((product) => (
+            <ProductCard key={product.id} product={product} />
+          ))}
+        </div>
+      )}
     </div>
   );
-};
-
-export default DealsOfTheDay;
+}
