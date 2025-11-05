@@ -81,7 +81,7 @@ const ProductCard = ({ product }) => {
         </div>
 
         {/* Action Buttons */}
-        <div className="flex justify-between items-center mt-4 pt-2 border-t border-gray-100">
+        <div className="flex gap-3 items-center mt-4 pt-2 border-t border-gray-100">
           {/* Heart Button */}
           <button
             onClick={handleFavoriteToggle}
