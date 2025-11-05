@@ -21,10 +21,10 @@ export default function Footer() {
             <h4 className="text-base font-semibold text-gray-100 mb-3">
               Find newsletter
             </h4>
-            <a href="#" className="text-sm text-gray-300 hover:text-primary transition">
+            <a href="/about-us" className="text-sm text-gray-300 hover:text-primary transition">
               About us
             </a>
-            <a href="#" className="text-sm text-gray-300 hover:text-primary transition">
+            <a href="/contact-us" className="text-sm text-gray-300 hover:text-primary transition">
               Contact us
             </a>
           </div>
