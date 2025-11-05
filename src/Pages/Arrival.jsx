@@ -27,8 +27,8 @@ const ProductTabsHeader = () => {
 
 
  return (
-  <>
-  <div className="flex justify-between items-end border-b border-gray-200 pb-2 mb-8 max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
+  <div className=''>
+  <div className="flex justify-between items-end border-b border-gray-200 py-12  ">
    
    <div className="relative">
     <h2 className="text-3xl font-semibold text-gray-800 pb-2">
@@ -61,7 +61,7 @@ const ProductTabsHeader = () => {
   </div>
  
     {renderContent()}
-  </>
+  </div>
  );
 };
 
