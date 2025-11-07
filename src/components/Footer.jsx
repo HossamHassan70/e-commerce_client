@@ -1,4 +1,5 @@
 import { Facebook, Linkedin, Twitter } from "lucide-react";
+import { Link } from "react-router-dom";
 
 export default function Footer() {
   return (
@@ -21,12 +22,12 @@ export default function Footer() {
             <h4 className="text-base font-semibold text-gray-100 mb-3">
               Find newsletter
             </h4>
-            <a href="/about-us" className="text-sm text-gray-300 hover:text-primary transition">
+            <Link href="/about-us" className="text-sm text-gray-300 hover:text-primary transition">
               About us
-            </a>
-            <a href="/contact-us" className="text-sm text-gray-300 hover:text-primary transition">
-              Contact us
-            </a>
+            </Link>
+ <Link to="/contact-us" className="text-sm text-gray-300 hover:text-primary transition">
+  Contact us
+</Link>
           </div>
 
           {/* العمود الثالث */}
