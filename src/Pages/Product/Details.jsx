@@ -103,45 +103,9 @@ const ProductDetails = () => {
             <p className="text-sm text-secondary my-4">{productDetails.description}</p>
           </div>
 
-          {/* الألوان */}
-          <div className="mt-4">
-            <h3 className="text-md font-medium">
-              Color: {selectedColor ? <span className="text-secondary">{selectedColor}</span> : "Select a color"}
-            </h3>
-            <div className="flex gap-2 mt-2">
-              {productDetails.colors.map((color) => (
-                <div
-                  key={color}
-                  className={`w-6 h-6 rounded-full border-2 cursor-pointer transition-all
-                    ${selectedColor === color ? "border-primary" : "border-gray-300"}`}
-                  style={{ backgroundColor: color }}
-                  onClick={() => setSelectedColor(color)}
-                />
-              ))}
-            </div>
-          </div>
 
-          {/* المقاسات */}
-          <div className="mt-4">
-            <h3 className="text-md font-medium">
-              Size: {selectedSize ? <span className="text-secondary">{selectedSize}</span> : "Select a size"}
-            </h3>
-            <div className="flex gap-2 mt-2">
-              {productDetails.sizes.map((size) => (
-                <button
-                  key={size}
-                  className={`px-3 py-1 border rounded-md hover:bg-gray-100 transition-all
-                    ${selectedSize === size ? "bg-primary text-white" : ""}`}
-                  onClick={() => setSelectedSize(size)}
-                >
-                  {size}
-                </button>
-              ))}
-            </div>
-            <a href="#" className="text-primary text-sm my-4 inline-block hover:underline">
-              View Size Guide
-            </a>
-          </div>
+
+
 
           {/* الكمية والأزرار */}
           <div className="mt-6 flex items-center gap-4">

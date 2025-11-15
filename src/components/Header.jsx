@@ -34,7 +34,7 @@ export default function Header() {
           </div>
 
           {/* Search Input */}
-          <form onSubmit={handleSearch} className="flex-1 max-w-xl mx-6 hidden md:flex">
+          <form onSubmit={handleSearch} className="flex-1 max-w-lg mx-6 hidden md:flex">
             <div className="relative w-full">
               <Input
                 placeholder="Search for products..."

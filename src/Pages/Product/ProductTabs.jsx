@@ -2,6 +2,7 @@
 import React from "react";
 import { Tabs, TabsContent, TabsList, TabsTrigger } from "@/components/ui/tabs";
 import DealsOfTheDay from "../Deals";
+import customBullet from "@/assets/icon.png";
 
 const ProductTabs = ({ description, additionalInfo, reviews = [] }) => {
   // بيانات افتراضية بالإنجليزي لو مفيش reviews
@@ -60,21 +61,128 @@ const ProductTabs = ({ description, additionalInfo, reviews = [] }) => {
         </TabsList>
 
         {/* Description */}
-        <TabsContent value="description" className="">
-          <p className="text-lg text-secondary my-4">{description}</p>
-        </TabsContent>
+{/* Description - مطابق للفيجما 100% */}
+<TabsContent value="description" className="mt-8">
+  <div className="text-secondary space-y-6">
+    {/* الفقرة الأولى */}
+    <p className="text-lg leading-relح7">
+      Lorem ipsum dolor sit amet consectetur. Maecenas congue velit quis sagittis sollicitudin adipiscing. 
+      Nunc bibendum id penatibus neque in.
+    </p>
+
+    {/* الفقرة التانية */}
+    <p className="text-lg leading-relaxed">
+      Molestie nunc in mauris in risus fermentum. Sit venenatis et viverra id aliquet porta. Risus urna quis 
+      amet libero id. Ut viverra sagittis nunc est molestie nunc nec. Cursus aliquet venenatis phasellus nunc 
+      nam lacinia fames sit velit. Lectus commodo nibh mauris consectetur quis.
+    </p>
+
+
+    {/* القايمة بنقاط مخصصة */}
+    <ul className="space-y-4">
+      {[
+        "Lorem ipsum dolor sit amet consectetur.",
+        "Lorem ipsum dolor sit amet consectetur.",
+        "Lorem ipsum dolor sit amet consectetur.",
+        "Lorem ipsum dolor sit amet consectetur.",
+        "Lorem ipsum dolor sit amet consectetur.",
+      ].map((item, i) => (
+        <li key={i} className="flex items-start gap-4">
+          <img
+            src={customBullet}
+            alt="bullet"
+            className="w-5 h-5 mt-0.5 object-contain flex-shrink-0"
+          />
+          <span className="text-lg leading-relaxed">{item}</span>
+        </li>
+      ))}
+    </ul>
+  </div>
+</TabsContent>
 
         {/* Additional Information */}
         <TabsContent value="additional" className="">
-          <ul className="list-disc pl-5 text-lg text-secondary my-4">
-            {additionalInfo.map((item, index) => (
-              <li key={index}>{item}</li>
-            ))}
-          </ul>
+          <div className="grid grid-cols-1 md:grid-cols-2 gap-10 text-secondary my-6">
+            {/* Shipping & Delivery Policy */}
+            <div>
+              <h3 className="text-lg font-semibold text-gray-800 mb-3">
+                1. Shipping & Delivery Policy
+              </h3>
+              <ul className="space-y-3">
+                {[
+                  "Shipping Costs Based on Region",
+                  "Estimated delivery time",
+                  "Partner Shipping Companies",
+                  "Free Shipping policy (if applicable)",
+                ].map((item, i) => (
+                  <li key={i} className="flex items-start gap-3">
+                    {/* ✅ نستخدم الصورة بدل الشكل */}
+                    <img
+                      src={customBullet}
+                      alt=""
+                      className="w-4 h-4 mt-1 object-contain"
+                    />
+                    <span>{item}</span>
+                  </li>
+                ))}
+              </ul>
+            </div>
+
+            {/* Return & Exchange Policy */}
+            <div>
+              <h3 className="text-lg font-semibold text-gray-800 mb-3">
+                2. Return & Exchange Policy
+              </h3>
+              <ul className="space-y-3">
+                {[
+                  "The allowed period for returns",
+                  "Conditions for returns and acceptance",
+                  "Refund Method",
+                  "Products that cannot be returned",
+                ].map((item, i) => (
+                  <li key={i} className="flex items-start gap-3">
+                    <img
+                      src={customBullet}
+                      alt=""
+                      className="w-4 h-4 mt-1 object-contain"
+                    />
+                    <span>{item}</span>
+                  </li>
+                ))}
+              </ul>
+            </div>
+
+            {/* Available Payment Methods */}
+            <div>
+              <h3 className="text-lg font-semibold text-gray-800 mb-3">
+                3. Available Payment Methods
+              </h3>
+              <ul className="space-y-3">
+                {[
+                  "Accepted Credit/Debit cards",
+                  "Cash on Delivery",
+                  "E-Wallets / Digital Wallets",
+                  "Installment plans (if available)",
+                ].map((item, i) => (
+                  <li key={i} className="flex items-start gap-3">
+                    <img
+                      src={customBullet}
+                      alt=""
+                      className="w-4 h-4 mt-1 object-contain"
+                    />
+                    <span>{item}</span>
+                  </li>
+                ))}
+              </ul>
+            </div>
+          </div>
         </TabsContent>
 
+
+
+
         {/* Reviews - Cards (بالإنجليزي) */}
-{/* Reviews */}
+        {/* Reviews */}
         <TabsContent value="review" className="w-full">
           <div className="my-8">
             {/* Rating Statistics & Overall Rating */}
@@ -137,9 +245,8 @@ const ProductTabs = ({ description, additionalInfo, reviews = [] }) => {
                               {[...Array(5)].map((_, i) => (
                                 <span
                                   key={i}
-                                  className={`text-base ${
-                                    i < review.rating ? "text-[#CEB56466]" : "text-gray-300"
-                                  }`}
+                                  className={`text-base ${i < review.rating ? "text-[#CEB56466]" : "text-gray-300"
+                                    }`}
                                 >
                                   ★
                                 </span>

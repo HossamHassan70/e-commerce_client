@@ -3,7 +3,7 @@ import { Link } from "react-router-dom";
 
 export default function Footer() {
   return (
-    <footer className="bg-secondary text-white py-12 mt-12 mx-6 md:mx-0">
+    <footer className="bg-secondary text-white py-12  mx-6 md:mx-0">
       {/* نفس المسافات من اليمين والشمال */}
       <div className="mx-auto px-[80px] max-w-[1440px]">
         {/* تخطيط أفقي متساوي المسافات */}

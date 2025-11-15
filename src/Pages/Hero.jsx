@@ -1,6 +1,7 @@
 import React from "react";
 import { Button } from "@/components/ui/button";
-import HeroImage from "../assets/Hero.jpg"; 
+import { useNavigate } from "react-router-dom";
+import HeroImage from "../assets/Hero.jpg";
 
 const heroSlidesData = [
   {
@@ -28,45 +29,60 @@ const heroSlidesData = [
   },
 ];
 
-export default function Hero({ activeIndex = 0, handleDotClick = () => {}, totalDots = heroSlidesData.length }) {
+export default function Hero({
+  activeIndex = 0,
+  handleDotClick = () => {},
+  totalDots = heroSlidesData.length,
+}) {
+  const navigate = useNavigate();
   const currentSlide = heroSlidesData[activeIndex];
 
   return (
-    <div className="min-h-screen bg-gradient-to-br from-white to-teal-50 flex flex-col justify-center">
-      <div className="grid grid-cols-1 lg:grid-cols-2 items-center gap-8 lg:gap-12 py-12">
-        
+    <section className="w-full bg-gradient-to-br from-white to-teal-50 flex flex-col justify-center overflow-hidden">
+      <div className="grid grid-cols-1 lg:grid-cols-2 items-center gap-8 lg:gap-12 ">
         {/* Image Section */}
         <div className="relative w-full flex justify-center">
           <img
             src={currentSlide.image}
             alt={`${currentSlide.collection} Hero`}
-            className="w-full max-w-[450px] sm:max-w-[600px] md:max-w-[750px] lg:max-w-[900px] xl:max-w-[950px] h-auto object-cover rounded-2xl shadow-md transition-transform duration-300 hover:scale-[1.02]"
+            className="w-full max-w-[60rem] h-[35rem] sm:h-[38rem] md:h-[40rem] lg:h-[42rem] xl:h-[45rem] object-cover rounded-2xl shadow-md transition-transform duration-300 hover:scale-[1.02]"
           />
           <div className="absolute inset-0 bg-gradient-to-t from-black/30 to-transparent rounded-2xl"></div>
         </div>
 
         {/* Content Section */}
-        <div className="text-center lg:text-left space-y-4 sm:space-y-6">
-          {/* Title */}
-          <h5 className="font-island text-primary text-[48px] sm:text-[64px] md:text-[80px] lg:text-[90px] xl:text-[96px] leading-none">
+        <div className="text-center lg:text-left space-y-[1.5rem] sm:space-y-[2rem] transition-all duration-700 transform">
+          <h5
+            className="font-island text-primary leading-none transition-all duration-500"
+            style={{
+              fontSize: "clamp(2.5rem, 6vw, 5.5rem)",
+            }}
+          >
             {currentSlide.title}
           </h5>
 
-          {/* Collection */}
-          <h1 className="font-inter font-semibold text-gray-900 text-[36px] sm:text-[48px] md:text-[64px] lg:text-[72px] xl:text-[80px] leading-none">
+          <h1
+            className="font-inter font-semibold text-gray-900 leading-tight transition-all duration-500"
+            style={{
+              fontSize: "clamp(2rem, 5vw, 4.5rem)",
+            }}
+          >
             {currentSlide.collection}
           </h1>
 
-          {/* Discount */}
-          <p className="font-inter text-gray-700 text-[20px] sm:text-[28px] md:text-[32px] lg:text-[36px] xl:text-[40px] leading-tight">
+          <p
+            className="font-inter text-gray-700 leading-tight transition-all duration-500"
+            style={{
+              fontSize: "clamp(1.2rem, 2.5vw, 2rem)",
+            }}
+          >
             {currentSlide.discount}
           </p>
 
-          {/* Buttons */}
-          <div className="flex flex-col sm:flex-row justify-center lg:justify-start gap-4 sm:gap-6 pt-6 sm:pt-10">
+          <div className="flex flex-col sm:flex-row justify-center lg:justify-start gap-[1rem] sm:gap-[1.5rem] pt-[2rem] sm:pt-[3rem]">
             <Button
               size="lg"
-              className="bg-primary hover:bg-teal-600 text-white px-6 sm:px-8 py-3 text-base sm:text-lg font-semibold shadow-md hover:shadow-lg transition-all duration-300 rounded-xl"
+              className="bg-primary hover:bg-teal-600 text-white px-[2rem] py-[1rem] text-[1rem] sm:text-[1.1rem] font-semibold shadow-md hover:shadow-lg transition-all duration-300 rounded-xl"
             >
               Shop Now
             </Button>
@@ -74,7 +90,8 @@ export default function Hero({ activeIndex = 0, handleDotClick = () => {}, total
             <Button
               size="lg"
               variant="outline"
-              className="border-2 border-primary text-primary hover:bg-teal-50 hover:border-teal-600 px-6 sm:px-8 py-3 text-base sm:text-lg font-semibold rounded-xl transition-all duration-300"
+              onClick={() => navigate("/category")}
+              className="border-2 border-primary text-primary hover:bg-teal-50 hover:border-teal-600 px-[2rem] py-[1rem] text-[1rem] sm:text-[1.1rem] font-semibold rounded-xl transition-all duration-300"
             >
               Read More
             </Button>
@@ -83,24 +100,24 @@ export default function Hero({ activeIndex = 0, handleDotClick = () => {}, total
       </div>
 
       {/* Pagination Dots */}
-      <div className="flex justify-center mt-8 sm:mt-12 space-x-2 sm:space-x-3">
+      <div className="flex justify-center  sm:mt-[2rem] space-x-[0.5rem]  sm:space-x-[1rem]">
         {Array.from({ length: totalDots }).map((_, index) => (
           <button
             key={index}
             onClick={() => handleDotClick(index)}
-            className="focus:outline-none focus:ring-2 focus:ring-primary rounded-full p-1 transition-all duration-300"
+            className="focus:outline-none focus:ring-2 focus:ring-primary rounded-full p-[0.25rem] transition-all duration-300"
             aria-label={`Go to slide ${index + 1}`}
           >
             <div
               className={`rounded-full transition-all duration-300 ${
                 index === activeIndex
-                  ? "bg-primary w-4 h-4 sm:w-5 sm:h-5"
-                  : "bg-gray-300 hover:bg-gray-400 w-2 h-2 sm:w-3 sm:h-3"
+                  ? "bg-primary w-[1rem] h-[1rem]"
+                  : "bg-gray-300 hover:bg-gray-400 w-[0.6rem] h-[0.6rem]"
               }`}
             />
           </button>
         ))}
       </div>
-    </div>
+    </section>
   );
 }

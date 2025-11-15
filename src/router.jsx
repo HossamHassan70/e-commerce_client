@@ -9,6 +9,9 @@ import Search from "./Pages/Search";
 import CartPage from "./Pages/Cart/Cart";
 import AboutUs from "./Pages/AboutUs";
 import ContactUs from "./Pages/ContactUs";
+import CategoriesSection from "./Pages/Categories";
+import NotFound from "./components/NotFound";
+import CategoryPage from "./Pages/Categories/CategoryPage";
 const router = createBrowserRouter([
   {
     path: "/",
@@ -42,6 +45,14 @@ const router = createBrowserRouter([
         path: "contact-us",
         element: <ContactUs />
       },
+            {
+        path: "category",
+        element: <CategoryPage/>
+            },
+                  {
+        path:"*",
+        element:<NotFound />
+      }
 
     ],
   },

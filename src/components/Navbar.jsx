@@ -1,50 +1,83 @@
 import React, { useState } from "react";
-import { Menu, ChevronDown, Facebook, Twitter, Linkedin } from "lucide-react";
+import { Menu, ChevronDown } from "lucide-react";
+import { useNavigate } from "react-router-dom";
 
-// Navbar Component
 export default function Navbar() {
   const [isOpen, setIsOpen] = useState(false);
+  const navigate = useNavigate();
 
   const toggleMenu = () => setIsOpen(!isOpen);
 
+  // دوال التنقل
+  const handleHomeClick = () => {
+    setIsOpen(false);
+    navigate("/");
+  };
+
+  const handleProductsClick = () => {
+    setIsOpen(false);
+    navigate("/product");
+  };
+
+  const handleCategoriesClick = () => {
+    setIsOpen(false);
+    navigate("/category");
+  };
+
   return (
-    <nav className="bg-primary text-white">
-      <div className="w-full md:max-w-[1400px] mx-auto p-4 md:px-8 lg:px-20">
-        <div className="flex items-center justify-between">
-          {/* Categories Button */}
-          <button className="bg-light-green text-white font-semibold px-4 py-2 rounded-lg flex items-center gap-2">
-            Shopping by categories 
-            <Menu size={18} />
+    <>
+      {/* الجزء الأخضر السفلي */}
+      <nav className="bg-primary text-white relative">
+        <div className="w-full md:max-w-[1400px] mx-auto px-6 py-3 flex justify-center relative">
+          {/* زر 3 شرط فقط */}
+          <button
+            onClick={toggleMenu}
+            className="absolute left-6 flex items-center gap-2 text-white hover:text-gray-200"
+          >
+            <Menu size={22} />
           </button>
 
-          {/* Desktop Links */}
-          <ul className="hidden md:flex md:justify-center md:items-center md:m-auto gap-8 font-medium text-light-white">
-            <li className="hover:text-secondary cursor-pointer font-bold">Home</li>
-            <li className="hover:text-secondary cursor-pointer">Products</li>
-            <li className="hover:text-secondary cursor-pointer flex items-center gap-1">
+          {/* الروابط في المنتصف */}
+          <ul className="flex gap-8 font-semibold text-white">
+            <li
+              onClick={handleHomeClick}
+              className="hover:text-gray-200 cursor-pointer"
+            >
+              Home
+            </li>
+
+            <li
+              onClick={handleProductsClick}
+              className="hover:text-gray-200 cursor-pointer"
+            >
+              Products
+            </li>
+
+            <li
+              onClick={handleCategoriesClick}
+              className="hover:text-gray-200 cursor-pointer flex items-center gap-1"
+            >
               Categories <ChevronDown size={16} />
             </li>
-            <li className="hover:text-secondary cursor-pointer">Offers</li>
-          </ul>
 
-          {/* Mobile Toggle */}
-          <button className="md:hidden text-white" onClick={toggleMenu}>
-            <Menu size={24} />
-          </button>
+            <li className="hover:text-gray-200 cursor-pointer">Offers</li>
+          </ul>
         </div>
 
-        {/* Mobile Menu */}
+        {/* القائمة اللي بتظهر عند الضغط على الـ 3 شرط */}
         {isOpen && (
-          <div className="md:hidden mt-4">
-            <ul className="flex flex-col gap-3 font-medium">
-              <li className="hover:text-secondary">Home</li>
-              <li className="hover:text-secondary">Products</li>
-              <li className="hover:text-secondary">Categories</li>
-              <li className="hover:text-secondary">Offers</li>
+          <div className="absolute bg-white text-gray-800 shadow-lg rounded-md left-6 mt-1 z-20 w-64">
+            <ul className="flex flex-col py-2">
+              <li
+                onClick={handleCategoriesClick}
+                className="px-4 py-2 hover:bg-gray-100 cursor-pointer"
+              >
+                Shopping by categories
+              </li>
             </ul>
           </div>
         )}
-      </div>
-    </nav>
+      </nav>
+    </>
   );
 }
