@@ -1,13 +1,18 @@
 // Product/ProductCard.jsx
 import { useCart } from "@/context/CartContext";
 import { useFavorites } from "@/context/FavoritesContext";
-import { Heart, ShoppingCart } from "lucide-react";
+import { Heart, ShoppingCart, Trash2 } from "lucide-react";
 import { useNavigate } from "react-router-dom";
 
-const ProductCard = ({ product, variant = "full" }) => {
+const ProductCard = ({ product, variant = "full", onDelete }) => {
   const { addToCart, removeFromCart, cartItems } = useCart();
   const { favorites, addToFavorites, removeFromFavorites } = useFavorites();
   const navigate = useNavigate();
+
+  // تحقق من وجود المنتج
+  if (!product) {
+    return null;
+  }
 
   const isFavorite = favorites.some((item) => item.id === product.id);
   const isInCart = cartItems.some((item) => item.id === product.id);
@@ -25,10 +30,61 @@ const ProductCard = ({ product, variant = "full" }) => {
   };
 
   const handleCardClick = () => {
-    navigate(`/product/${product.id}`);
+    // لو admin view، ما نعملش navigate
+    if (variant !== "admin") {
+      navigate(`/product/${product.id}`);
+    }
   };
 
-  // لو variant = minimal → نرجع النسخة البسيطة (زي الفيجما)
+  const handleDelete = (e) => {
+    e.stopPropagation();
+    if (onDelete) {
+      onDelete(product.id);
+    }
+  };
+
+  // Admin Dashboard View
+  if (variant === "admin") {
+    return (
+      <div className="group relative bg-white rounded-2xl shadow-md hover:shadow-lg transition-all duration-300 overflow-hidden">
+        {/* Image */}
+        <div className="aspect-square overflow-hidden bg-gray-50">
+          <img
+            src={product.image}
+            alt={product.name}
+            className="w-full h-full object-cover"
+          />
+        </div>
+
+        {/* Content */}
+        <div className="p-4">
+          {/* Category */}
+          <p className="text-sm text-gray-500 mb-1">{product.category || "Dress"}</p>
+          
+          {/* Code */}
+          <p className="text-base font-semibold text-gray-900 mb-3">
+            Code : <span className="text-gray-600 font-normal">{product.code || "AA0090KPSA"}</span>
+          </p>
+
+          {/* Stock and Delete */}
+          <div className="flex items-center justify-between">
+            <div className="bg-emerald-100 text-emerald-700 px-4 py-1.5 rounded-md font-medium text-sm">
+              Stock : {product.stock || 1000}
+            </div>
+            
+            <button
+              onClick={handleDelete}
+              className="p-2 hover:bg-gray-100 rounded-lg transition-colors"
+            >
+              <Trash2 className="w-5 h-5 text-gray-400 hover:text-red-500 transition-colors" />
+            </button>
+          </div>
+        </div>
+      </div>
+    );
+  }
+
+  // Minimal View (Shop Page)
   if (variant === "minimal") {
     return (
       <div
@@ -88,7 +144,8 @@ const ProductCard = ({ product, variant = "full" }) => {
       </div>
     );
   }
-// النسخة الفائقة البساطة (Category Page)
+
+  // Ultra Minimal View (Category Page)
   if (variant === "ultra-minimal") {
     return (
       <div
@@ -108,7 +165,8 @@ const ProductCard = ({ product, variant = "full" }) => {
       </div>
     );
   }
-  // النسخة الكاملة (default - full)
+
+  // Full View (Default)
   return (
     <div
       className="group relative bg-white rounded-lg shadow-sm hover:shadow-xl transition-all duration-300 overflow-hidden flex flex-col h-full cursor-pointer"

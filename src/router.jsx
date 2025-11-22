@@ -1,6 +1,8 @@
 // Router.jsx
 
 import { createBrowserRouter } from "react-router-dom";
+
+// الموقع العام
 import App from "./App";
 import Home from "./Pages/Home";
 import ProductDetails from "./Pages/Product/Details";
@@ -12,48 +14,45 @@ import ContactUs from "./Pages/ContactUs";
 import CategoriesSection from "./Pages/Categories";
 import NotFound from "./components/NotFound";
 import CategoryPage from "./Pages/Categories/CategoryPage";
+import AdminRoute from "./Pages/AdminDashboard/AdminRoute";
+import AdminLayout from "./Pages/AdminDashboard/AdminLayout";
+import AdminPage from "./Pages/AdminDashboard/AdminPage";
+
+// الأدمن
+
+
 const router = createBrowserRouter([
+  // =============================
+  // الموقع العام
+  // =============================
   {
     path: "/",
     element: <App />,
     children: [
-      {
-        index: true,
-        element: <Home />,
-      },
-      {
-        path: "product/:id",
-        element: <ProductDetails />,
-      },
-      {
-        path: "favorites",
-        element: <Favourites />
-      },
-      {
-        path: "cart",
-        element: <CartPage />
-      },
-      {
-        path: "search",
-        element: <Search />
-      },
-      {
-        path: "about-us",
-        element: <AboutUs />
-      },
-      {
-        path: "contact-us",
-        element: <ContactUs />
-      },
-            {
-        path: "category",
-        element: <CategoryPage/>
-            },
-                  {
-        path:"*",
-        element:<NotFound />
-      }
+      { index: true, element: <Home /> },
+      { path: "product/:id", element: <ProductDetails /> },
+      { path: "favorites", element: <Favourites /> },
+      { path: "cart", element: <CartPage /> },
+      { path: "search", element: <Search /> },
+      { path: "about-us", element: <AboutUs /> },
+      { path: "contact-us", element: <ContactUs /> },
+      { path: "category", element: <CategoryPage /> },
+      { path: "*", element: <NotFound /> },
+    ],
+  },
 
+  // =============================
+  // لوحة تحكم الأدمن
+  // =============================
+  {
+    path: "/admin-dashboard",
+    element: (
+      <AdminRoute>
+        <AdminLayout />
+      </AdminRoute>
+    ),
+    children: [
+      { index: true, element: <AdminPage /> },
     ],
   },
 ]);

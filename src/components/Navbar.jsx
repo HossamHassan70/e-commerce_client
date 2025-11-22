@@ -4,24 +4,34 @@ import { useNavigate } from "react-router-dom";
 
 export default function Navbar() {
   const [isOpen, setIsOpen] = useState(false);
+  const [activeTab, setActiveTab] = useState("home"); // state لتتبع التاب النشط
   const navigate = useNavigate();
 
   const toggleMenu = () => setIsOpen(!isOpen);
 
-  // دوال التنقل
+  // دوال التنقل مع تغيير التاب النشط
   const handleHomeClick = () => {
+    setActiveTab("home");
     setIsOpen(false);
     navigate("/");
   };
 
   const handleProductsClick = () => {
+    setActiveTab("products");
     setIsOpen(false);
     navigate("/product");
   };
 
   const handleCategoriesClick = () => {
+    setActiveTab("categories");
     setIsOpen(false);
     navigate("/category");
+  };
+
+  const handleOffersClick = () => {
+    setActiveTab("offers");
+    setIsOpen(false);
+    navigate("/offers");
   };
 
   return (
@@ -41,26 +51,39 @@ export default function Navbar() {
           <ul className="flex gap-8 font-semibold text-white">
             <li
               onClick={handleHomeClick}
-              className="hover:text-gray-200 cursor-pointer"
+              className={`hover:text-gray-200 cursor-pointer ${
+                activeTab === "home" ? "text-emerald-300 border-b-2 border-emerald-300" : ""
+              }`}
             >
               Home
             </li>
 
             <li
               onClick={handleProductsClick}
-              className="hover:text-gray-200 cursor-pointer"
+              className={`hover:text-gray-200 cursor-pointer ${
+                activeTab === "products" ? "text-emerald-300 border-b-2 border-emerald-300" : ""
+              }`}
             >
               Products
             </li>
 
             <li
               onClick={handleCategoriesClick}
-              className="hover:text-gray-200 cursor-pointer flex items-center gap-1"
+              className={`hover:text-gray-200 cursor-pointer flex items-center gap-1 ${
+                activeTab === "categories" ? "text-emerald-300 border-b-2 border-emerald-300" : ""
+              }`}
             >
               Categories <ChevronDown size={16} />
             </li>
 
-            <li className="hover:text-gray-200 cursor-pointer">Offers</li>
+            <li
+              onClick={handleOffersClick}
+              className={`hover:text-gray-200 cursor-pointer ${
+                activeTab === "offers" ? "text-emerald-300 border-b-2 border-emerald-300" : ""
+              }`}
+            >
+              Offers
+            </li>
           </ul>
         </div>
 

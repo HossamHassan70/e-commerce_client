@@ -3,63 +3,29 @@ import { Input } from "@/components/ui/input";
 import { Textarea } from "@/components/ui/textarea";
 import { Button } from "@/components/ui/button";
 import { Mail, Phone, MapPin, Linkedin, Facebook, Twitter } from "lucide-react";
-
+import ContactUsBg from "@/assets/ContactUs.jpg"; // تأكدي من المسار صح
 export default function ContactUs() {
   return (
     <div className="w-full min-h-screen bg-gray-50">
       {/* ---------- Header Section ---------- */}
-<section className="relative h-[380px] bg-gray-100 flex flex-col justify-center items-center text-center overflow-hidden">
-  {/* Layer غامق بسيط */}
-  <div className="absolute inset-0 bg-[#83838399]/60 backdrop-blur-[1px] z-0"></div>
+<section 
+  className="relative h-[380px] flex flex-col justify-center items-center text-center overflow-hidden"
+  style={{
+    backgroundImage: `url(${ContactUsBg})`,
+    backgroundSize: 'cover',
+    backgroundPosition: 'center',
+    backgroundRepeat: 'no-repeat',
+  }}
+>
+  {/* Dark Overlay */}
+  <div className="absolute inset-0 bg-black/40 z-10"></div>
 
-  {/* الصور - توزيع متوازن */}
-  <img
-    src="https://images.unsplash.com/photo-1503944583220-79d8926ad5e2?w=400&q=80"
-    className="absolute top-[21px] left-[930px] w-28 opacity-85 rotate-[-4deg] z-0 drop-shadow-md"
-    alt="model"
-  />
-  <img
-    src="  https://images.unsplash.com/photo-1590874103328-eac38a683ce7?w=400&q=80"
-    className="absolute top-[34px] left-[423px] w-28 opacity-90 rotate-[2deg] z-0 drop-shadow-md"
-    alt="model"
-  />
-  <img
-    src="https://images.unsplash.com/photo-1535632066927-ab7c9ab60908?w=400&q=80"
-    className="absolute top-[167px] left-[31px] w-24 opacity-80 rotate-[3deg] z-0 drop-shadow-md"
-    alt="shoe"
-  />
-  <img
-    src="https://images.unsplash.com/photo-1542291026-7eec264c27ff?w=400&q=80"
-    className="absolute top-[299px] left-[1178px] w-28 opacity-80 rotate-[-3deg] z-0 drop-shadow-md"
-    alt="shoe"
-  />
-  <img
-    src="https://images.unsplash.com/photo-1590874103328-eac38a683ce7?w=400&q=80"
-    className="absolute top-[190px] left-[281px] w-20 opacity-75 rotate-[5deg] z-0 drop-shadow-sm"
-    alt="bag"
-  />
-  <img
-    src="https://images.unsplash.com/photo-1526170375885-4d8ecf77b99f?w=400&q=80"
-    className="absolute top-[253px] left-[873px] w-24 opacity-80 rotate-[-5deg] z-0 drop-shadow-sm"
-    alt="sunglasses"
-  />
-  <img
-    src="https://images.unsplash.com/photo-1512436991641-6745cdb1723f?w=400&q=80"
-    className="absolute top-[25%] right-[80%] w-20 opacity-75 blur-[0.5px] z-0 drop-shadow-sm"
-    alt="watch"
-  />
-  <img
-    src="https://images.unsplash.com/photo-1512436991641-6745cdb1723f?w=400&q=80"
-    className="absolute bottom-[15%] left-[55%] w-24 opacity-80 rotate-[8deg] z-0 drop-shadow-sm"
-    alt="dress"
-  />
-
-  {/* النص */}
-  <div className="relative z-10 px-4">
-    <h1 className="text-3xl font-semibold mb-3 text-gray-700 drop-shadow-md">
-      Contect Us
+  {/* Content */}
+  <div className="relative z-20 px-4 text-black">
+    <h1 className="text-4xl font-bold mb-3 drop-shadow-lg">
+      Contact Us
     </h1>
-    <p className="text-secondary max-w-md mx-auto leading-relaxed">
+    <p className="max-w-md mx-auto text-sm md:text-base leading-relaxed">
       Lorem ipsum dolor sit amet consectetur. Dolor odio venenatis tortor
       cras lorem libero mi sit cursus.
     </p>
